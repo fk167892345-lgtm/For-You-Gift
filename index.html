@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You Gift ❤️</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, #3a172d, #160b14 55%, #090509);
+      color: white;
+      font-family: Georgia, "Times New Roman", serif;
+      overflow-x: hidden;
+    }
+
+    .page {
+      display: none;
+      min-height: 100vh;
+      width: 100%;
+      padding: 35px 22px;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .page.active {
+      display: flex;
+      animation: fadeIn 1s ease;
+    }
+
+    .content {
+      max-width: 750px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .gift-icon {
+      font-size: 70px;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    h1 {
+      font-size: clamp(38px, 9vw, 70px);
+      margin-bottom: 18px;
+      color: #fff;
+    }
+
+    h2 {
+      font-size: clamp(30px, 7vw, 52px);
+      margin-bottom: 20px;
+      color: #ffd6e7;
+    }
+
+    .intro {
+      font-size: 20px;
+      line-height: 1.7;
+      color: #f5dce7;
+      margin-bottom: 30px;
+    }
+
+    button {
+      border: none;
+      padding: 15px 28px;
+      border-radius: 40px;
+      background: linear-gradient(135deg, #ff4f91, #ff78a9);
+      color: white;
+      font-size: 17px;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(255, 70, 140, 0.25);
+      transition: 0.3s;
+      margin: 8px;
+    }
+
+    button:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 15px 35px rgba(255, 70, 140, 0.4);
+    }
+
+    .question {
+      font-size: 20px;
+      line-height: 1.7;
+      color: #f5dce7;
+      margin-bottom: 25px;
+    }
+
+    .no-option {
+      margin-top: 20px;
+      font-size: 15px;
+      color: #c9aab8;
+    }
+
+    .poem-container {
+      text-align: left;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 25px;
+      padding: 30px 24px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    .poem-title {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #ffd6e7;
+    }
+
+    .poem-subtitle {
+      text-align: center;
+      color: #c9aab8;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    .line {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: lineIn 0.8s ease forwards;
+      color: #f8eaf0;
+      font-size: 18px;
+      line-height: 1.85;
+      margin-bottom: 13px;
+    }
+
+    .highlight {
+      color: #ff9fc4;
+      font-weight: bold;
+    }
+
+    .ending {
+      text-align: center;
+      margin-top: 35px;
+      color: #ffd6e7;
+      font-size: 21px;
+      line-height: 1.8;
+    }
+
+    .signature {
+      text-align: center;
+      margin-top: 30px;
+      color: #e9c8d6;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .heart {
+      position: fixed;
+      bottom: -30px;
+      font-size: 20px;
+      opacity: 0.6;
+      animation: rise 8s linear infinite;
+      pointer-events: none;
+    }
+
+    .heart:nth-child(1) { left: 10%; animation-delay: 1s; }
+    .heart:nth-child(2) { left: 30%; animation-delay: 4s; }
+    .heart:nth-child(3) { left: 55%; animation-delay: 2s; }
+    .heart:nth-child(4) { left: 75%; animation-delay: 5s; }
+    .heart:nth-child(5) { left: 90%; animation-delay: 3s; }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes lineIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .poem-container {
+        padding: 24px 18px;
+      }
+
+      .line {
+        font-size: 17px;
+        line-height: 1.8;
+      }
+
+      .intro {
+        font-size: 18px;
+      }
+
+      button {
+        width: 80%;
+        max-width: 280px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Floating hearts -->
+  <div class="heart">❤️</div>
+  <div class="heart">💕</div>
+  <div class="heart">❤️</div>
+  <div class="heart">💗</div>
+  <div class="heart">💕</div>
+
+  <!-- PAGE 1 -->
+  <section class="page active" id="page1">
+    <div class="content">
+
+      <div class="gift-icon">🎁</div>
+
+      <h1>For You Gift</h1>
+
+      <p class="intro">
+        Gift, I made something for you...<br>
+        Something from my heart. ❤️
+      </p>
+
+      <button onclick="showPage(2)">
+        Please Click ❤️
+      </button>
+
+    </div>
+  </section>
+
+
+  <!-- PAGE 2 -->
+  <section class="page" id="page2">
+    <div class="content">
+
+      <h2>Are you ready?</h2>
+
+      <p class="question">
+        Gift, there are a few things<br>
+        I've been wanting to say to you...
+      </p>
+
+      <button onclick="showPage(3)">
+        Yes ❤️
+      </button>
+
+      <button onclick="showPage(3)">
+        Yes 🥹
+      </button>
+
+      <p class="no-option">
+        Looking for another option?<br>
+        No. 😂❤️
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- PAGE 3 -->
+  <section class="page" id="page3">
+    <div class="content">
+
+      <div class="poem-container">
+
+        <h2 class="poem-title">For Gift ❤️</h2>
+
+        <p class="poem-subtitle">
+          Three days. So many memories.
+        </p>
+
+        <div id="poem"></div>
+
+        <div class="ending">
+          Three days.<br>
+          So many memories.<br>
+          And one thing I know for sure...<br><br>
+
+          I'm genuinely grateful that our paths crossed. ❤️
+        </div>
+
+        <div class="signature">
+          Gift, thank you for being you. ❤️<br><br>
+
+          — From someone who doesn't want to lose the beautiful
+          friendship those three days gave us.
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <script>
+
+    function showPage(pageNumber) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+      });
+
+      document.getElementById("page" + pageNumber)
+        .classList.add("active");
+
+      if (pageNumber === 3) {
+        startPoem();
+      }
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+
+    const poemLines = [
+
+      "Gift...",
+
+      "Maybe the hardest thing to explain is that",
+
+      "<span class='highlight'>we only had three days.</span>",
+
+      "Just three days.",
+
+      "And somehow, those three days left a mark on me that I never expected.",
+
+      "When I first went to the Young Leaders Summit, I honestly had no idea I would meet someone like you there.",
+
+      "I didn't know that those three days would introduce me to someone whose presence would become such a beautiful part of my memories.",
+
+      "But somehow, our paths crossed.",
+
+      "And in those few days, there was so much laughter, so many silly jokes, conversations, little moments, and memories that I know I won't easily forget.",
+
+      "Everything happened there at the Young Leaders Summit.",
+
+      "The laughter.",
+
+      "The jokes.",
+
+      "The conversations.",
+
+      "The moments we shared.",
+
+      "The way we could sit close to each other and just enjoy being there.",
+
+      "And all those little moments that are honestly difficult to explain in words.",
+
+      "They may have looked like ordinary moments, but they weren't ordinary to me.",
+
+      "Because sometimes you don't need years with someone for their presence to become meaningful.",
+
+      "Sometimes, a person can come into your life for only a few days and somehow leave behind memories that stay much longer.",
+
+      "And maybe that's what happened with you, Gift.",
+
+      "We only had three days at the summit, but somehow those three days became something I don't want to forget.",
+
+      "And then there was the bus.",
+
+      "Not because the bus was where everything happened, but because somehow we still ended up taking the same bus home throughout those three days.",
+
+      "It became another little part of those memories.",
+
+      "Something so simple, yet something I know I'll remember.",
+
+      "Maybe that's why you feel like something is missing.",
+
+      "Maybe that's why it hurts even though everything ended on a good note.",
+
+      "Because not everything we lose is something we stopped caring about.",
+
+      "Sometimes, we lose moments.",
+
+      "The laughter.",
+
+      "The closeness.",
+
+      "The conversations.",
+
+      "The little things we didn't realize we would miss until they were gone.",
+
+      "And Gift, I want you to know something.",
+
+      "<span class='highlight'>Those three days meant something to me too.</span>",
+
+      "<span class='highlight'>You meant something to me.</span>",
+
+      "I appreciated every laugh, every joke, every conversation, every little moment we shared at the summit.",
+
+      "I appreciated the way you made everything feel so easy.",
+
+      "The way we could talk and laugh without forcing anything.",
+
+      "The way those three days somehow felt like more than just three ordinary days.",
+
+      "And honestly, I don't want those memories to become all we have.",
+
+      "I don't want you to become someone I once knew... someone I remember but no longer know.",
+
+      "I don't want that.",
+
+      "I still want the friendship.",
+
+      "I still want the laughter.",
+
+      "The random conversations.",
+
+      "The stupid jokes.",
+
+      "The little check-ups.",
+
+      "The moments where we can talk about anything and forget about everything else for a while.",
+
+      "I may not have all the answers.",
+
+      "I may not be ready for everything you hoped for.",
+
+      "But please don't ever mistake that for me not caring about you.",
+
+      "Because I do.",
+
+      "More than I probably know how to explain.",
+
+      "<span class='highlight'>Gift, you are appreciated.</span>",
+
+      "<span class='highlight'>You are remembered.</span>",
+
+      "<span class='highlight'>And you are important to me.</span>",
+
+      "Those three days were short, but they were beautiful.",
+
+      "And if I could go back, knowing how much I would eventually miss them, I'd still choose to be there.",
+
+      "I'd still choose the laughter.",
+
+      "I'd still choose the jokes.",
+
+      "I'd still choose the conversations.",
+
+      "I'd still choose every little moment that made those three days at the Young Leaders Summit special.",
+
+      "And yes, I'd still choose those quiet rides home on the same bus with you.",
+
+      "Not because the bus was where our story happened, but because it became a small part of a memory that started at the summit.",
+
+      "Because sometimes the shortest chapters can leave the deepest memories.",
+
+      "And maybe that's what happened with us.",
+
+      "Three days. That's all it was.",
+
+      "But somehow, it became something I don't want to forget.",
+
+      "So if you ever wonder whether those days meant something to me, please remember this:",
+
+      "<span class='highlight'>They did. You did.</span>",
+
+      "And I'm genuinely grateful that our paths crossed at the Young Leaders Summit.",
+
+      "I don't know what tomorrow will bring.",
+
+      "I may not be ready for everything you might want from me.",
+
+      "But I know that I don't want to lose the beautiful friendship that came from those three days.",
+
+      "And no matter how much time passes, I hope you remember those days with a smile.",
+
+      "Because I will.",
+
+      "And Gift, if you ever wonder why I care so much...",
+
+      "Maybe it's simple.",
+
+      "<span class='highlight'>Some people need years to become special.</span>",
+
+      "<span class='highlight'>Some people only need three days.</span>",
+
+      "<span class='highlight'>You were one of those people. ❤️</span>"
+
+    ];
+
+
+    function startPoem() {
+
+      const poem = document.getElementById("poem");
+
+      poem.innerHTML = "";
+
+      poemLines.forEach((line, index) => {
+
+        const p = document.createElement("p");
+
+        p.className = "line";
+
+        p.innerHTML = line;
+
+        p.style.animationDelay = (index * 0.12) + "s";
+
+        poem.appendChild(p);
+
+      });
+
+    }
+
+  </script>
+
+</body>
+</html>
